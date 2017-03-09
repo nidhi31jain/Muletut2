@@ -1,0 +1,29 @@
+<section>
+	<div>
+		The file connector enables the mule application to read and write
+		files. It can be implemented as an inbound endpoint or outbound one.
+		<p class="alert alert-info">File connector supports the one-way
+			exchange pattern only.</p>
+	</div>
+</section>
+<section>
+	<h3>File Connector as an inbound endpoint</h3>
+	<div>
+		<ul class="post-list">
+			<li>Place the file connector to the source section of flow.</li>
+			<li>Set the path to read the file from.</li>
+			<li>It checks for file in the set location after certain frequency called polling frequency.</li>
+			<li>It triggers the flow on receiving the file.</li>
+			<li>It reads the file into payload as a FileInputStream.</li>
+			<li>Regex filter can be used to specify the type of file to read or the file name itself.</li>
+		</ul>
+	</div>
+</section>
+<section>
+	<h3>File Connector as an outbound endpoint</h3>
+	<div>
+		<ul class="post-list">
+			<li>Place the file connector to source section of flow.</li>
+		</ul>
+	</div>
+</section>

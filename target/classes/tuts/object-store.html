@@ -1,0 +1,137 @@
+<section>
+	<div>
+		Mule uses Object Stores to persist data in memory. Since, Flow
+		variables don't cross the flow and Session variables are per session
+		only, Object Stores are needed to store data for later retrieval.
+		Object Stores can save state across messages.<br>Object Store
+		supports 7 operations.
+		<ul class="post-list">
+			<li>Contains: Check for the given key. Return boolean.</li>
+			<li>Dual Store: Stores the value in specified key and also
+				stores the key using the value.</li>
+			<li>Remove: Removes the given key.</li>
+			<li>Retrieve: Retrieves an object and copies the value in the
+				target specified.</li>
+			<li>Retrieve all keys: Retrieve all keys in a form of list.</li>
+			<li>Retrieve and store</li>
+			<li>Store: Store a value in object store.</li>
+		</ul>
+	</div>
+	<h3>Getting the Object Store</h3>
+	<ul class="post-list">
+		<li>Open exchange from Anypoint Studio. <img
+			src="images/os-1.jpg" class="post-img img-responsive"></li>
+		<li>Search for Object Store there and install.<img
+			src="images/os-2.JPG" class="post-img img-responsive"></li>
+	</ul>
+</section>
+<section>
+	<h3>Using the Object Store Connector</h3>
+	<h4>Store</h4>
+	<div>
+		<ul class="post-list">
+			<li>Create a new project</li>
+			<li>Drag the HTTP connector and configure it.</li>
+			<li>Drag a Session Variable and give the value as <code>#[message.inboundProperties.'http.query.params'.name]</code>
+				The name parameter will be sent in HTTP request.
+			</li>
+			<li>Drag an Object Store connector <img src="images/os-3.JPG"
+				class="post-img img-responsive"></li>
+			<li>Open the properties tab for Object Store</li>
+			<li>Click on the '+' icon against Connector Configuration. Click
+				OK on the next window. Nothing to enter for now.<img
+				src="images/os-4.JPG" class="post-img img-responsive">
+			</li>
+			<li>In the operations select Store, give a key name and enter
+				the value<img src="images/os-5.JPG" class="post-img img-responsive">
+				<p class="alert alert-info">Check the overwrite box, or object
+					store will throw an exception on second run.</p>
+			</li>
+			<li>Drag a HTTP connector and configure it to send a request to
+				<mark>retrieve</mark><img src="images/os-6.JPG"
+				class="post-img img-responsive"><img src="images/os-7.JPG"
+				class="post-img img-responsive">
+			</li>
+		</ul>
+		<h4>Retrieve</h4>
+		<ul class="post-list">
+			<li>Create a new Mule Configuration file and name it retrieve</li>
+			<li>Drag a HTTP connector to source section and make it listen
+				on <mark>retrieve</mark> path
+			</li>
+			<li>Drag an Object Store Connector. Open the properties tab</li>
+			<li>Select <mark>Retrieve</mark> operation. Enter the key name
+				used when storing the object. In target property, enter a literal
+				and Mule will convert it to Flow variable, other options are also
+				available like Session variable, Outbound property etc. Leave the
+				Target Scope as it is<img src="images/os-8.JPG"
+				class="post-img img-responsive"></li>
+			<li>Drag a logger and type <mark>Object store value::
+					#[flowVars.myRetrievedVar]</mark> against Message
+			<li>Run the project</li>
+			<li>If everything is correct, logger should show the value sent
+				via HTTP request</li>
+		</ul>
+		<h4>Contains</h4>
+		<ul class="post-list">
+			<li>Drag an Object Store between HTTP connector and Object Store
+				in <mark>retrieve.xml</mark>
+			</li>
+			<li>Select <mark>Contains</mark> operations after opening the
+				properties tab for the Object Store
+			</li>
+			<li>Give the key name used during Store operation<img
+				src="images/os-10.JPG" class="post-img img-responsive"></li>
+			<li>In the logger add <mark>, payload :: #[payload]</mark></li>
+			<li>If key exists, payload value should be <mark>true</mark>
+		</ul>
+		<h4>Retrieve And Store</h4>
+		<ul class="post-list">
+			<li>Change the path of HTTP requester in <mark>store flow</mark>
+				to /rns
+			</li>
+			<li>Create a new Mule Configuration file and name it
+				retrieveandstore</li>
+			<li>Drag a HTTP connector to source section and make it listen
+				on <mark>rns</mark> path
+			</li>
+			<li>Drag an Object Store Connector. Open the properties tab</li>
+			<li>Select <mark>Retrieve and store</mark> operation. Enter the
+				key name used when storing the object. Enter the new value against <mark>Store
+					Value Reference</mark> to be stored, and enter the Target property<img
+				src="images/os-9.JPG" class="post-img img-responsive"></li>
+			<li>Mule will retrieve the value stored in the object and store
+				the value given in <mark>Store Value Reference</mark> in it
+				<li>Drag a logger and type <mark>Object store value::
+					#[flowVars.retrievedStoreVar]</mark> against Message
+			
+			<li>Run the project</li>
+		</ul>
+		<h4>Retrieve all keys</h4>
+				<p>
+			Just include a Object store connector in
+			<mark>retrieve.xml</mark>
+			, and select
+			<mark>retrieve all keys</mark>
+			operation. Returns a list of all keys like
+			<mark>[key1, key2,...]</mark>
+			. For this flow, payload will be
+			<mark>[NAME]</mark>
+		
+				<h4>Remove</h4>
+		<p>
+			In properties tab of Object Store Connector, select
+			<mark>Remove</mark>
+			operation and specify the Key to remove. If the key doesn't exists
+			then
+			<mark>ObjectDoesNotExistException</mark>
+			will be thrown.
+		</p>
+		<h4>Dual store</h4>
+		<p>If Dual Store is used, the object will be saved both ways, once
+			using the Key with specified value and again, with value containing
+			the key. It's like A contains B, B contains A.</p>
+
+	
+			</div>
+</section>

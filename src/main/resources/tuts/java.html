@@ -1,0 +1,59 @@
+<section>
+	<div>
+		The java component allows to include some java logic in the mule
+		application.
+		<ul class="post-list">
+			<li>Drag the java component to the process section of flow.<img
+				src="images/java-1.JPG" class="post-img img-responsive"></li>
+			<li>Add the java class by clicking the plus sign or just search
+				for it.<img src="images/java-2.JPG" class="post-img img-responsive">
+			</li>
+		</ul>
+	</div>
+</section>
+<section>
+	<div>
+		<ul class="post-list">
+			<li>Drag a HTTP connector to the source of flow.</li>
+			<li>Drag Set Payload and extract the name parameter from the
+				inbound properties <code>#[message.inboundProperties.'http.query.params'.name]</code>
+			</li>
+			<li>Configure Java component to the class Greet.<img
+				src="images/java-3.JPG" class="post-img img-reposnive">
+			</li>
+			<li><pre>
+					<code class="language-java post-code">
+package com.muletut;
+
+public class Greet {
+	public String sayHi(String name) {
+		String message = "Hi " + name;
+		return message;
+	}
+}
+</code>
+				</pre></li>
+			<li>Flow XML should be like this now.</li>
+			<li><pre>
+					<code class = "language-markup post-code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+    &lt;http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    &lt;flow name="javaFlow">
+        &lt;http:listener config-ref="HTTP_Listener_Configuration" path="/java" doc:name="HTTP"/>
+        &lt;set-payload value="#[message.inboundProperties.'http.query.params'.name]" doc:name="Set Payload"/>
+        &lt;component class="com.muletut.Greet" doc:name="Java"/>
+    &lt;/flow>
+&lt;/mule>
+				</code>
+				</pre></li>
+			<li>Send a request to <mark>localhost:8081/java?name=Jon</mark></li>
+			<li>The output should be <mark>Hi Jon</mark></li>
+		</ul>
+	</div>
+</section>

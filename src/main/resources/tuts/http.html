@@ -1,0 +1,40 @@
+<section>
+	<div>
+		HTTP connector allows a mule application to send and receive HTTP or
+		HTTPS request given a host, port and path.<br> The Connector can
+		be used as either
+		<ul class="post-list">
+			<li>Listener: To listen to request coming to the application.</li>
+			<li>Requester: To send request to certain address from the
+				application and get the response.</li>
+		</ul>
+	</div>
+</section>
+<section>
+	<h3>HTTP listener</h3>
+	<div>
+		<ul class="post-list">
+			<li>Place the HTTP connector in source section.</li>
+			<li>Add a connector configuration.<img src="images/http-1.JPG"
+				class="post-img img-responsive"></li>
+			<li>Back in the properties tab, add path. It is the URI to
+				listen on<img src="images/http-2.JPG"
+				class="post-img img-responsive">
+			</li>
+		</ul>
+	</div>
+</section>
+<section>
+	<h3>HTTP Requester</h3>
+	<div>
+		<ul class="post-list">
+			<li>Place the HTTP connector in message processor section.</li>
+			<li>Add a connector configuration.<img src="images/http-3.JPG"
+				class="post-img img-responsive"></li>
+			<li>Back in the properties tab, add path. It is the URI to send
+				the request to</li>
+			<li>Select the method from the dropdown. <img
+				src="images/http-4.JPG" class="post-img img-responsive"></li>
+		</ul>
+	</div>
+</section>

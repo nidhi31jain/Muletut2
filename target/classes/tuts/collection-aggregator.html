@@ -1,0 +1,21 @@
+<section>
+	<div>The Collection Splitter, like its name, splits a collection
+		and sends one fragment at a time to to the next message processor.</div>
+</section>
+<section>
+	<div>
+		<ul class="post-list">
+			<li>In the <a href = "#collection splitter">Collection Splitter</a> flow, add a
+				Collection Aggregator.<img src="images/ca-1.JPG"
+				class="post-img img-responsive">
+			</li>
+			<li>Drop a Logger after Collection Aggregator, write <code>#[payload]</code>
+				in the message field.
+			</li>
+			<li>The output in console by the last logger will be <pre>
+					<code class="post-code">
+[{id=1, name=Jane, surname=Doe}, {id=2, name=John, surname=Doe}]</code>
+				</pre> The order can be different.
+		</ul>
+	</div>
+</section>

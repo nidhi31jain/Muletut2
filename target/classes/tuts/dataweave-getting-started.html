@@ -1,0 +1,263 @@
+<section>
+	<div>
+		Dataweave is a simple, powerful, JSON like language used for querying
+		and transforming data. It supports transformation to and from for many
+		data types like CSV, JSON, POJO, CSV, flat file etc.<br>Use the
+		Transform Message Component to write the transformation code.
+	</div>
+</section>
+<section>
+	<div>
+		<h4>XML to JSON</h4>
+		<ul class="post-list">
+			<li>Drag a HTTP connector to source section and configure it</li>
+			<li>Drag the Transform Message component</li>
+			<li>Open the properties tab for Transform Message. Right Click
+				on <mark>Define metadata</mark>. Select <mark>Edit Sample
+					Data</mark> <img src="images/dw-1.JPG" class="post-img img-responsive">
+			</li>
+			<li>In the next window,select the format of sample data as XML
+				and click OK. Clicking OK will open an empty.xml file <img
+				src="images/dw-2.JPG" class="post-img img-responsive">
+			</li>
+			<li>Write this code in empty.xml<pre>
+					<code class="post-code language-markup">
+&lt;student>
+	&lt;firstname>Jane&lt;/firstname>
+	&lt;lastname>Doe&lt;/lastname>
+	&lt;dob>13th November 2016&lt;/dob>
+&lt;/student></code>
+				</pre></li>
+			<li>In Dataweave editor, change the <mark>application/java</mark>
+				to <mark>application/json</mark> and write payload<img
+				src="images/dw-3.JPG" class="post-img img-responsive">
+				<p class="alert alert-info">
+					The first line
+					<code>%dw 1.0</code>
+					<code>%output application/json</code>
+					called the output directive sets the output type of transformation. There can be more directives also like namespace, var, input etc</strong><br>The
+					three hyphens, in next line, are expected by the DataWeave engine
+					to understand where the transformation starts.<br>After that
+					we have body, where we can define our transformation code.
+				</p>
+			</li>
+			<li>Click on Preview. And Bam, XML is converted to JSON that
+				easily.</li>
+			<li>This is the final Transform Message properties tab look<img
+				src="images/dw-4.JPG" class="post-img img-responsive">
+			</li>
+		</ul>
+	</div>
+</section>
+<section>
+	<div>
+		<h4>Let's play a bit more with Dataweave</h4>
+		<ul class="post-list">
+			<li>In Dataweave editor, write this code<pre>
+					<code class="language-javscript post-code">
+%dw 1.0
+%output application/json
+---
+payload map {
+	name: $.firstname ++ " " ++ $.lastname,
+	date-of-birth: $.dob
+}
+</code>
+				</pre>
+				<p class="alert alert-info">The map operator is useful when
+					there is a need to access the payload's items individually. '$'
+					refers to the current instance and '$$' refers to the current
+					index.</p>
+			</li>
+			<li>The preview is like this <img src="images/dw-5.JPG"
+				class="post-img img-responsive">
+		</ul>
+		<h4>Accessing the Attribute</h4>
+		<ul class="post-list">
+			<li>Change the input to the below code<pre>
+					<code class="language-markup post-code ">
+&lt;student firstname = &#39;Jane&#39;>
+	&lt;lastname>Doe&lt;/lastname>
+	&lt;dob>13th July 2006&lt;/dob>
+&lt;/student>
+					</code>
+				</pre><br>Here, the root tag have an attribute <mark>firstname</mark></li>
+			<li>Write this code in the editor<pre>
+					<code class="post-code langauge-javascript">
+%dw 1.0
+%output application/json
+---
+payload map {
+	student: {
+		name: $.@firstname ++ " " ++ $.lastname,
+		date-of-birth: $.dob
+	}
+}</code>
+				</pre>
+				<p class="alert alert-info">@ symbol is used to access the
+					attribute of the tag.</p></li>
+			<li>Output <pre>
+					<code class="langauge-markup post-code">
+[
+  {
+    "name": "Jane Doe",
+    "date-of-birth": "13th July 2006"
+  }
+]</code>
+				</pre>
+			</li>
+		</ul>
+	</div>
+</section>
+<section>
+	<div>
+		<h4>JSON to XML</h4>
+		The example below shows how to convert JSON to XML
+		<ul class="post-list">
+			<li>Drag a HTTP connector to source section and configure it</li>
+			<li>Drag the Transform Message component</li>
+			<li>Open the properties tab for Transform Message. Right Click
+				on <mark>Define metadata</mark>. Select <mark>Edit Sample
+					Data</mark>
+			</li>
+			<li>In the next window,select the format of sample data as XML
+				and click OK. Clicking OK will open an json.json file</li>
+			<li>Input code<pre>
+					<code class="language-javascript post-code">
+{
+  "title": "Coherence",
+  "director": "James Ward Byrkit",
+  "year": 2014,
+  "IMDB rating": 7.2,
+  "actors":[
+ 	 "Emily Foxler",
+ 	 "Nicholas Brendon",
+ 	 "Maury Sterling"
+  ]
+}</code>
+				</pre></li>
+			<li>Transformation code<pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/xml
+---
+{
+	movie: {
+		name: payload.title,
+		director: payload.director,
+		year: payload.year,
+		IMDB: payload.'IMDB rating',
+		actors: {
+			(payload.actors map 
+						name: $)
+		}
+	}
+}</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-markup">
+&lt;?xml version='1.0' encoding='windows-1252'?>
+&lt;movie>
+  &lt;name>Coherence&lt;/name>
+  &lt;director>James Ward Byrkit&lt;/director>
+  &lt;year>2014&lt;/year>
+  &lt;IMDB>7.2&lt;/IMDB>
+  &lt;actors>
+    &lt;actor>Emily Foxler&lt;/actor>
+    &lt;actor>Nicholas Brendon&lt;/actor>
+    &lt;actor>Maury Sterling&lt;/actor>
+  &lt;/actors>
+&lt;/movie></code>
+				</pre>
+			</li>
+		</ul>
+	</div>
+	<h4>JSON to XML 2</h4>
+	<ul class="post-list">
+		<li>Input code<pre>
+					<code class="language-javascript post-code">
+[
+{
+  "title": "Coherence",
+  "director": "James Ward Byrkit",
+  "year": 2014,
+  "IMDB rating": 7.2,
+  "actors":[
+  "Emily Foxler",
+  "Nicholas Brendon",
+  "Maury Sterling"
+  ]
+},
+{
+  "title": "Predestination",
+  "director": "The Spierig  Brothers",
+  "year": 2014,
+  "IMDB rating": 7.4,
+  "actors":[
+  "Ethan Hawke",
+  "Sarah Snook",
+  "Madeleine West"
+  ]
+  }
+]</code>
+				</pre></li>
+		<li>Transformation code<pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/xml
+---
+movies @(id:'listOfMovies'): {
+	(payload map {
+		movie: {
+			name: $.title,
+			director: $.director,
+			year: $.year,
+			IMDB: $.'IMDB rating',
+			actors: {
+				($.actors map 
+						name: $)
+			}
+		}
+	}
+)}</code>
+				</pre></li>
+		<li>Output<pre>
+					<code class="post-code language-markup">
+&lt;?xml version='1.0' encoding='windows-1252'?>
+&lt;movies id="listOfMovies">
+  &lt;movie>
+    &lt;name>Coherence&lt;/name>
+    &lt;director>James Ward Byrkit&lt;/director>
+    &lt;year>2014&lt;/year>
+    &lt;IMDB>7.2&lt;/IMDB>
+    &lt;actors>
+      &lt;actor>Emily Foxler&lt;/actor>
+      &lt;actor>Nicholas Brendon&lt;/actor>
+      &lt;actor>Maury Sterling&lt;/actor>
+    &lt;/actors>
+  &lt;/movie>
+  &lt;movie>
+    &lt;name>Predestination&lt;/name>
+    &lt;director>The Spierig  Brothers&lt;/director>
+    &lt;year>2014&lt;/year>
+    &lt;IMDB>7.4&lt;/IMDB>
+    &lt;actors>
+      &lt;name>Ethan Hawke&lt;/name>
+      &lt;name>Sarah Snook&lt;/name>
+      &lt;name>Madeleine West&lt;/name>
+    &lt;/actors>
+  &lt;/movie>
+&lt;/movies></code>
+				</pre>
+			<p class="alert alert-info">
+				Wrap the map operation in <strong>{(..)}</strong> when mapping array
+				elements(JSON or JAVA) to XML
+			</p>
+			<p class="alert alert-info">
+				Notice the
+				<mark>@(id:"listOfMovies")</mark>
+				in transformation code to add the attribute <strong>id</strong> to <strong>movies</strong>
+				tag in final XML
+			</p></li>
+	</ul>
+</section>

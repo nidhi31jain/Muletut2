@@ -1,0 +1,90 @@
+<section>
+	<div>
+		Dataweave selectors are used to navigate through the Objects or
+		Arrays, sometimes in combination with operators
+		<h4>Single Value Selector</h4>
+		Returns the first value whose key matches the expression.
+		<ul class="post-list">
+			<li>Input<pre>
+					<code class="post-code language-markup">
+&lt;persons>
+&lt;Name>Elena&lt;/Name>
+&lt;Name>Alena&lt;/Name>
+&lt;/persons></code>
+				</pre></li>
+			<li>Transform<pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/json
+---
+Name: payload.persons.Name</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-javascript">
+{
+  "Name": "Elena"
+}</code>
+				</pre></li>
+		</ul>
+		<h4>Multi Value Selector</h4>
+		Returns all the values whose key matches the expression.
+		<ul class="post-list">
+			<li>Transform on same input as Single Value Selector<pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/json
+---
+Name: payload.persons.*Name</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-javascript">
+{
+  "Name": [
+    "Elena",
+    "Alena"
+  ]
+}</code>
+				</pre></li>
+		</ul>
+		<h4>Index Selector</h4>
+		Returns the element at the specified index.<br>If index is
+		positive or 0, it starts counting from beginning else from end where
+		-1 is the last element
+		<ul class="post-list">
+			<li>Transform on same input as Single Value Selector<pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/json
+---
+Name: payload.persons[1]</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-javascript">
+{
+  "Name": "Alena"
+}</code>
+				</pre></li>
+		</ul>
+		<h4>Descendants Selector</h4>
+		Returns the element at the specified index.<br>If index is
+		positive or 0, it starts counting from beginning else from end where
+		-1 is the last element
+		<ul class="post-list">
+			<li>Transform on same input as Single Value Selector<pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/json
+---
+Name: payload..Name</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-javascript">
+{
+  "Name": [
+    "Elena"
+  ]
+}</code>
+				</pre></li>
+		</ul>
+	</div>
+</section>

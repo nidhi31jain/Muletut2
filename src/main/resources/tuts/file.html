@@ -1,0 +1,48 @@
+<section>
+	<div>
+		The file connector enables the mule application to read and write
+		files. It can be implemented as an inbound endpoint or outbound one.
+		<p class="alert alert-info">File connector supports the one-way
+			exchange pattern only.</p>
+	</div>
+</section>
+<section>
+	<h3>File Connector as an inbound endpoint</h3>
+	<div>
+		<ul class="post-list">
+			<li>Place the file connector to the source section of flow. <img
+				src="images/file-1.JPG" class="post-img img-responsive"></li>
+			<li>Set the path to read the file from.</li>
+			<li>The file can also be moved to another location after reading
+				by specifying Move to Directory option.</li>
+			<li>It checks for file in the set location after certain
+				frequency called polling frequency. <img src="images/file-2.JPG"
+				class="post-img img-responsive">
+			</li>
+			<li>It triggers the flow on receiving the file.</li>
+			<li>It reads the file into payload as a FileInputStream.</li>
+			<li>Regex filter can be used to specify the type of file to read
+				or the file name itself. <img src="images/file-3.JPG"
+				class="post-img img-responsive"><br> <img
+				src="images/file-4.JPG" class="post-img img-responsive">
+			</li>
+		</ul>
+		<p class="alert alert-info">By default, file connector deletes the
+			file after reading.</p>
+	</div>
+</section>
+<section>
+	<h3>File Connector as an outbound endpoint</h3>
+	<div>
+		<ul class="post-list">
+			<li>It can create new files or append content to the existing
+				ones.</li>
+				<li>Place the HTTP connector to source section of the flow and configure.</li>
+			<li>Place the file connector after HTTP.<img
+				src="images/file-5.JPG" class="post-img img-responsive"></li>
+			<li>Specify the path to write to and name of the file. <br>
+				<img src="images/file-6.JPG" class="post-img img-responsive">
+			</li>
+		</ul>
+	</div>
+</section>
