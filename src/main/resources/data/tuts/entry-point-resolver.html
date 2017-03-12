@@ -1,0 +1,244 @@
+<section>
+	<div>
+		If the Java class have more than one method, then mule needs some way
+		for mapping the request to a specific method. For that purpose, Mule
+		gives the option of Entry Point Resolvers.<br> There are a number
+		of resolvers in Mule
+		<ul class="post-list">
+			<li>Method Entry Point Resolver</li>
+			<li>Reflection Entry Point Resolver</li>
+			<li>Callable Entry Point Resolver</li>
+		</ul>
+	</div>
+</section>
+<section>
+	<div>
+		<h3>Method Entry Point Resolver</h3>
+		The Method Entry Point Resolver maps the request to a method by
+		specifying which method to call. <br>In Configuration XML of the
+		flow, include these lines inside Java component.
+		<ul class="post-list">
+			<li>Create the Java class <pre>
+					<code class="language-java post-code">
+package com.muletut;
+
+public class GreetWithTwoMethods {
+	public String sayHi(String name) {
+			String message = "Hi " + name + ". How are you?";
+			return message;
+	}
+
+	public String sayHello(String name) {
+			String message = "Hello " + name + ". How are you?";
+			return message;
+	}
+}
+			</code>
+				</pre>
+			</li>
+			<li>Include HTTP component, set payload and Java component in
+				the flow. <img src="images/epr-1.JPG"
+				class="post-img img-responsive">
+			</li>
+			<li>Configure the HTTP component. Let's say, the path is <mark>mep</mark></li>
+			<li>In set payload, extract the name parameter, which will be a
+				part of the request, like <code>
+					#[message.inboundProperties.'http.query.params'.name]</code>
+			</li>
+			<li>Configure the Java component to point to the class</li>
+			<li>The XML should be like this by now <pre>
+					<code class="language-markup post-code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	&lt;flow name="methodentrypointdemoFlow">
+		&lt;http:listener config-ref="HTTP_Listener_Configuration"
+			path="/mep" doc:name="HTTP" />
+		&lt;set-payload value="#[message.inboundProperties.'http.query.params'.name]"
+			doc:name="Set Payload" />
+		&lt;component class="com.muletut.GreetWithTwoMethods" doc:name="Java"/>
+	&lt;/flow>
+&lt;/mule>
+			</code>
+				</pre>
+			<li>Include the below code inside Java component configuration
+				XML of the flow<pre>
+					<code class="language-markup post-code">
+&lt;component class="com.muletut.GreetWithTwoMethods" doc:name="Java">
+		&lt;method-entry-point-resolver>
+			&lt;include-entry-point method="sayHi" />
+		&lt;/method-entry-point-resolver>
+&lt;/component>
+</code>
+				</pre>
+			</li>
+			<li>Send a request to <mark>localhost:8081/mep?name=Elena</mark></li>
+			<li>The output should be <mark>Hi Elena</mark></li>
+		</ul>
+	</div>
+</section>
+<section>
+	<h3>Reflection Entry Point Resolver</h3>
+	<div>
+		Reflection Entry Point Resolver payload type as argument to map teh
+		request to a method. The payload should be an Array of Object to pass
+		multiple arguments. If no payload, i.e; the type is Null then request
+		will be mapped to no argument method.
+
+		<ul class="post-list">
+			<li>Create the Java class<pre>
+					<code class="language-java post-code">
+package com.muletut;
+
+public class REPResolver {
+	public String methodWithTwoArguments(String arg1, String arg2) {
+		return "Request mapped to methodWithTwoArguments(" + arg1 + ", " + arg2 + ")";
+	}
+
+	public String methodWithOneArgument(String arg1) {
+		return "Request mapped to methodWithOneArgument(" + arg1 + ")";
+	}
+
+	public String methodWithNoArgument() {
+		return "Request mapped to methodWithNoArgument";
+	}
+}
+
+</code>
+				</pre></li>
+			<li>Drag a HTTP connector, an expression transformer and a Java
+				component into the flow.<img src="images/epr-2.JPG"
+				class="post-img img-responsive">
+			</li>
+			<li>Configure HTTP to listen on <mark>rep</mark> path
+			</li>
+			<li>The Expression Transformer is used to transform to request
+				parameter(s) to Array of String(s)</li>
+			<li>Open the properties tab for Expression Transformer and go to
+				Advanced tab</li>
+			<li>Click on the (+) icon<img src="images/epr-3.JPG"
+				class="post-img img-responsive"></li>
+			<li>Under the expression bar write the MEL expression to get the
+				name parameter and check the optional box</li>
+			<li>Similarly, create another one for surname</li>
+			<li>Configure the Java component to point to the class</li>
+			<li>The resulting look like this <pre>
+					<code class="language-markup post-code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	&lt;flow name="repdemoFlow">
+		&lt;http:listener config-ref="HTTP_Listener_Configuration"
+			path="/repdemo" doc:name="HTTP" />
+		&lt;expression-transformer doc:name="Expression">
+			&lt;return-argument
+				expression="#[message.inboundProperties.'http.query.params'.name]"
+				optional="true" />
+			&lt;return-argument
+				expression="#[message.inboundProperties.'http.query.params'.surname]"
+				optional="true" />
+		&lt;/expression-transformer>
+		&lt;component class="com.muletut.REPResolver" doc:name="Java">
+			&lt;reflection-entry-point-resolver />
+		&lt;/component>
+	&lt;/flow>
+&lt;/mule>
+					</code>
+				</pre></li>
+			<li>Send a request to <mark>localhost:8081/rep?name=Jane&surname=Doe</mark></li>
+			<li>The output should be <mark>Request mapped to
+					methodWithTwoArguments(Jane, Doe)</mark>
+		</ul>
+		<p class="alert alert-info">
+			To invoke other two methods, send the request like
+			<mark>localhost:8081/rep?name=Jane&surname=</mark>
+			and
+			<mark>localhost:8081/rep?name=&surname=</mark>
+			respectively
+		</p>
+	</div>
+</section>
+<section>
+	<h3>Callable Entry Point Resolver</h3>
+	<div>
+		This resolver, when used, looks for the
+		<mark>org.mule.api.lifecycle.Callable</mark>
+		interface implemented by Java class, and if implemented will invoke
+		the
+		<mark>onCall() method</mark>
+		.
+		<ul class="post-list">
+			<li>Change the Java class to this<pre>
+					<code class="language-java post-code">
+package com.muletut;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.mule.api.MuleEventContext;
+import org.mule.api.MuleMessage;
+import org.mule.api.lifecycle.Callable;
+
+public class GreetWithTwoMethods implements Callable {
+	@Override
+	public Object onCall(MuleEventContext eventContext) throws Exception {
+		MuleMessage msg = eventContext.getMessage();
+		Map&lt;String, String> params = msg.getInboundProperty("http.query.params");
+		Iterator&lt;Entry&lt;String, String>> itr = params.entrySet().iterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+		return params;
+	}
+
+	public String sayHi(String name) {
+		String message = "Hi " + name + ". How are you?";
+		return message;
+	}
+
+	public String sayHello(String name) {
+		String message = "Hello " + name + ". How are you?";
+		return message;
+	}
+}
+					</code>
+				</pre></li>
+			<li>Inside the XML, change the Jaca compoenent to below code<pre>
+					<code class="language-markup post-code">
+&lt;component class="com.muletut.GreetWithTwoMethods" doc:name="Java">
+	&lt;callable-entry-point-resolver />
+&lt;/component></code>
+				</pre></li>
+		</ul>
+		<p class="alert alert-info">
+			The order of EPRs can also be specified using Entry Point Resolver
+			sets. Mule will try the EPRs in order and if one is not found, will
+			move to the next. If no match is found,
+			<mark> EntryPointNotFoundException</mark>
+			will be thrown.
+		<pre>
+					<code class="language-markup post-code">
+&lt;component class="com.muletut.GreetWithTwoMethods" doc:name="Java">
+	&lt;entry-point-resolver-set>
+		&lt;callable-entry-point-resolver />
+		&lt;method-entry-point-resolver>	
+			&lt;include-entry-point method="sayHi" />
+		&lt;/method-entry-point-resolver>
+	&lt;/entry-point-resolver-set>
+&lt;/component></code>
+				</pre>
+		</p>
+	</div>
+</section>

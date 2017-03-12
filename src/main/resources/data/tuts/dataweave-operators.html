@@ -1,0 +1,418 @@
+<section>
+	<div>
+		<h4>Map</h4>
+		<ul class="post-list">
+			<li>Input<pre>
+					<code class="language-markup post-code ">
+&lt;students>
+	&lt;student>
+		&lt;firstname>Jane&lt;/firstname>
+		&lt;lastname>Doe&lt;/lastname>
+		&lt;dob>13th July 2006&lt;/dob>
+	&lt;/student>
+	&lt;student>
+		&lt;firstname>Emma&lt;/firstname>
+		&lt;lastname>Watkins&lt;/lastname>
+		&lt;dob>1st November 2003&lt;/dob>
+	&lt;/student>
+&lt;/students>					</code>
+				</pre></li>
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+%dw 1.0
+%output application/json
+---
+payload.students map {
+	'student$$': {
+		name: $.firstname ++ " " ++ $.lastname,
+		"date of birth": $.dob
+	}
+}
+</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+[
+  {
+    "student0": {
+      "name": "Jane Doe",
+      "date of birth": "13th July 2006"
+    }
+  },
+  {
+    "student1": {
+      "name": "Emma Watkins",
+      "date of birth": "1st November 2003"
+    }
+  }
+]</code>
+				</pre>
+			</li>
+		</ul>
+		<h4>Filter</h4>
+		Returns an array with elements that passed the filtering criteria.
+		<ul class="post-list">
+			<li>Transform <pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/json
+---
+animals: ["Dog", "Cat", "Man", "Lion"] filter $ != "Man"</code>
+				</pre></li>
+			<li>Output<pre>
+									<code class="post-code language-javascript">
+{
+  "animals": [
+    "Dog",
+    "Cat",
+    "Lion"
+  ]
+}</code>
+				</pre></li>
+			<li>You can use logical operators like <strong>>, &lt;,
+					==, !=, not, and, or </strong>
+			</li>
+			<li><pre>
+					<code class="post-code language-javscript">
+animals: ["Dog", "Cat", "Man", "Lion"] filter $ == "Man"
+animals: ["Dog", "Cat", "Man", "Lion"] filter $ != "Man" and $ != "Cat"				
+animals: ["Dog", "Cat", "Man", "Lion"] filter not $ != "Man"</code>
+				</pre></li>
+		</ul>
+		<h4>Remove</h4>
+		Returns an array with specified element removed
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code language-javscript">
+%dw 1.0
+%output application/json
+---
+animals: ["Dog", "Cat", "Man", "Lion"] - "Cat"
+		</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-javscript">
+{
+  "animals": [
+    "Dog",
+    "Man",
+    "Lion"
+  ]
+}		</code>
+				</pre></li>
+			<li>To remove more than one element, use <strong>--</strong></li>
+			<li>Transform<pre>
+					<code class="post-code language-javscript">
+animals: ["Dog", "Cat", "Man", "Lion"] 
+		</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-javscript">
+{
+  "animals": [
+    "Dog",
+    "Lion"
+  ]
+}		</code>
+				</pre></li>
+
+		</ul>
+		<h4>When..Otherwise</h4>
+		<ul class="post-list">
+			<li>Input<pre>
+					<code class="post-code language-javascript">
+{
+  "country": "Russia"
+}
+		</code>
+				</pre></li>
+			<li>Transform<pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/json
+---
+{
+	currency: "Ruble"
+} when payload.country == "Russia"
+otherwise {
+	currency: "AUD"
+}</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-javascript">
+{
+  "currency": "Ruble"
+}</code>
+				</pre></li>
+		</ul>
+		<h4>Unless..Otherwise</h4>
+		<ul class="post-list">
+			<li>Input<pre>
+					<code class="post-code language-javascript">
+{
+  "country": "Russia"
+}
+		</code>
+				</pre></li>
+			<li>Transform<pre>
+					<code class="post-code language-javascript">
+%dw 1.0
+%output application/json
+---
+{
+	currency: "Ruble"
+} unless payload.country == "Russia"
+otherwise {
+	currency: "AUD"
+}	
+</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code language-javascript">
+{
+  "currency": "AUD"
+}</code>
+				</pre></li>
+		</ul>
+		<h4>SplitBy, JoinBy</h4>
+		<strong>splitBy</strong> splits a string into an array
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+"Mule ESB" splitBy " "</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+[
+  "Mule",
+  "ESB"
+]</code>
+				</pre></li>
+		</ul>
+		<strong>joinBy</strong> is opposite of <strong>splitBy</strong>,
+		merging an array into string.
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+string: ["Mule","ESB"] joinBy " "
+</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+{
+  "string": "Mule ESB"
+}</code>
+				</pre></li>
+		</ul>
+		<h4>orderBy, distinctBy</h4>
+		<strong>orderBy</strong> returns the array/object in ascending order.<br>
+		<strong>distinctBy</strong> returns unique values from the array.
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+(["q","w","e","r","t","y","y"] orderBy $ ) distinctBy $</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+[
+  "e",
+  "q",
+  "r",
+  "t",
+  "w",
+  "y"
+]</code>
+				</pre>
+				<p class="alert alert-info">
+					To order array/object in descending order, simply invert the order
+					of the array/object. <strong>(["q","w","e","r","t","y","y"]
+						orderBy $)[-1..0]</strong>
+				</p></li>
+
+		</ul>
+		<h4>groupBy</h4>
+		<h4>Flatten</h4>
+		<h4>Replace</h4>
+		Replace a part of string according to a regular expression.
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+String: "Mule Enterprise Service Bus" replace /[a-z]/ with "z"</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+{
+  "String": "Mzzz Ezzzzzzzzz Szzzzzz Bzz"
+}</code>
+				</pre></li>
+		</ul>
+		<h4>startsWith, endsWith</h4>
+		<strong>startsWith</strong> return true or false depending on if
+		string starts with given substring. <br> <strong>endsWith</strong>
+		return true or false depending on if string ending with given
+		substring.
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+%dw 1.0
+%output application/json
+---
+{
+	true: "Mule" startsWith "Mu",
+	false: "tutorials" endsWith "as"
+}</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+{
+  "true": true,
+  "false": false
+}</code>
+				</pre>
+			</li>
+		</ul>
+		<h4>upper, lower, camelize, capitalize, dasherize</h4>
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+%dw 1.0
+%output application/json
+---
+{
+string1: upper "mule tutorials",
+string2: lower "mule tutorials",
+string3: camelize "mule_tutorials",
+string4: capitalize "mule TUTORIALS",
+string5: dasherize "mule tutorials"
+}</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+{
+  "string1": "MULE TUTORIALS",
+  "string2": "mule tutorials",
+  "string3": "muleTutorials",
+  "string4": "Mule Tutorials",
+  "string5": "mule-tutorials"
+}</code>
+				</pre>
+			</li>
+		</ul>
+		<h4>Trim</h4>
+		Removes any excess leading or trailing spaces in string
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+%dw 1.0
+%output application/json
+---
+string: trim "    mule tutorials      "</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+{
+  "string": "mule tutorials"
+}</code>
+				</pre>
+			</li>
+		</ul>
+		<h4>Substring</h4>
+		Returns a set of characters based on the indices provided.
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+%dw 1.0
+%output application/json
+---
+{
+string: "mule tutorials" [1..6],
+string: "mule tutorials" [-1..-6]
+}</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+{
+  "string": "ule tu",
+  "string": "slairo"
+}</code>
+				</pre>
+				<p class="alert alert-info">
+					First case, i.e; [1..6], means include 1st index and go till 5th.
+					Indexing starts from 0.<br> Second case, [-1..-6], means
+					starting from the last element go till the 6th last element.
+				</p>
+			</li>
+		</ul>
+		<h4>sizeOf, typeOf</h4>
+		<strong>sizeOf</strong> returns a size of array/object/string. <br>
+		<strong>typeOf</strong> returns the type of provided element.
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+%dw 1.0
+%output application/json
+---
+{
+	arraySize: sizeOf ["Dog", "Cat", "Man", "Lion"],
+	stringSize: sizeOf "Mule Tutorials",
+	objectSize: sizeOf {"ESB": "Mule"},
+	isString: typeOf "Mule Tutorials",
+	isArray: typeOf ["Dog", "Cat", "Man", "Lion"],
+	isObject: typeOf {"ESB": "Mule"}
+}</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+{
+  "arraySize": 4,
+  "stringSize": 14,
+  "objectSize": 1,
+  "isString": ":string",
+  "isArray": ":array",
+  "isObject": ":object"
+}</code>
+				</pre>
+			</li>
+		</ul>
+
+		<h3>Mathematical Operators</h3>
+		<ul class="post-list">
+			<li>Transform<pre>
+					<code class="post-code langauge-javascript">
+%dw 1.0
+%output application/json
+---
+{
+add: 3+4,
+subtract: 3-4,
+multiply: 3*4,
+divsision: 3/4,
+max: max [3,4],
+min: min [3,4],
+round: round 3.4,
+sqrt: sqrt 4,
+power: 3 pow 4,
+ceil: ceil 3.4,
+floor: floor 3.4
+}</code>
+				</pre></li>
+			<li>Output<pre>
+					<code class="post-code langauge-javascript">
+{
+  "add": 7,
+  "subtract": -1,
+  "multiply": 12,
+  "divsision": 0.75,
+  "max": 4,
+  "min": 3,
+  "round": 3,
+  "sqrt": 2.0,
+  "power": 81,
+  "ceil": 4,
+  "floor": 3
+}</code>
+				</pre>
+			</li>
+		</ul>
+	</div>
+</section>

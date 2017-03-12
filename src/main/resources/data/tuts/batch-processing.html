@@ -1,0 +1,40 @@
+<section>
+	<div>
+		Mule can process message in batches. It has the ability split payload
+		into a batch of records and process them, report them or just push to
+		another system. This is particularly handy when processing a large
+		file or a large set of data from database.
+		<p>A batch job is an independent block of code with four phases.</p>
+		<ul class="post-list">
+			<li>Input: Have a message or source or series of processors to
+				prepare data.</li>
+			<li>Load and Dispatch: Mule splits the payload into a collection
+				and save them in queue. It is an implicit phase.</li>
+			<li>Process: Each records is processed asynchronously and moves
+				through the processors.</li>
+			<li>Complete: Reports summary of records processed. This phase
+				can be used to get some insight into the processed records.</li>
+		</ul>
+		A Batch Job can be triggered via
+		<ul class="post-list">
+			<li>A Batch Execute element, to reference the Batch Job from a
+				flow</li>
+			<li>Placing an inbound one way source like File or FTP in the
+				input section of Batch Job</li>
+		</ul>
+	</div>
+</section>
+<section>
+	<h3>Creating a Batch Job</h3>
+	<div>
+		<ul class="post-list">
+			<li>Drag a Batch scope</li>
+			<li>Drag a File Connector and Transform Message to the input
+				section</li>
+			<li>Configure the File Connector to read the CSV file</li>
+			<li>IN transform Message, write the below code<pre>
+					<code class="language markup post-code"></code>
+				</pre></li>
+		</ul>
+	</div>
+</section>

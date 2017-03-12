@@ -21,6 +21,7 @@ public class DaoServiceImpl implements DaoService {
 	SessionFactory sessionFactory;
 
 	/************* Add Index Menu Items ***************/
+	@Override
 	public boolean addMenuItems(String[] menuItemsNames) throws MuletutException {
 		Session session = null;
 		Transaction transaction = null;
@@ -48,19 +49,20 @@ public class DaoServiceImpl implements DaoService {
 				transaction.rollback();
 			}
 			throw new MuletutException("Can't connect with database", e);
-
 		} finally {
 			session.close();
 		}
 	}
 
 	/************* Get Index Menu Items ***************/
+	@Override
 	public ArrayList<String> getIndexMenu() throws MuletutException {
 		String table = "Tutorial";
 		return getMenu(table);
 	}
 
 	/************* Add Reference Menu Items ***************/
+	@Override
 	public boolean addReferenceMenuItems(String[] referenceMenuItemsNames) throws MuletutException {
 		Session session = null;
 		Transaction transaction = null;
@@ -95,12 +97,14 @@ public class DaoServiceImpl implements DaoService {
 	}
 
 	/************* Get Reference Menu Items ***************/
+	@Override
 	public ArrayList<String> getReferenceMenu() throws MuletutException {
 		String table = "Reference";
 		return getMenu(table);
 	}
 
 	/************* Add Blog Posts Names ***************/
+	@Override
 	public boolean addBlogPosts(String[] blogPostsNames) throws MuletutException {
 		Session session = null;
 		Transaction transaction = null;
@@ -135,12 +139,14 @@ public class DaoServiceImpl implements DaoService {
 	}
 
 	/************* Get Blog Posts ***************/
+	@Override
 	public ArrayList<String> getBlogPosts() throws MuletutException {
 		String table = "Post";
 		return getMenu(table);
 	}
 
 	/************* Get Blog Posts For Single ***************/
+	@Override
 	public ArrayList<String> getBlogPostsForSingle(String postName) throws MuletutException {
 		String table = "Post";
 		return getMenu(table, postName);
@@ -162,7 +168,6 @@ public class DaoServiceImpl implements DaoService {
 				query = "SELECT T.name FROM " + table + " T WHERE T.name != '" + values[0] + "' ORDER BY RAND()";
 				itemQuery = session.createQuery(query).setMaxResults(10);
 			}
-			System.out.println("ABHAY"+query);
 			for (Object item : itemQuery.list()) {
 				items.add(item.toString().replaceAll("\\s", "-"));
 			}

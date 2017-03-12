@@ -228,7 +228,7 @@ div#main div#post-container #post-area #post-content pre {
 ********blog page************
 *******************************/
 div#main-content-blog, div#main-content-single, div#main-content-about,
-	div#main-content-error {
+	div#main-content-error, div#main-content-search {
 	margin-top: 5px;
 	height: auto;
 }
@@ -244,15 +244,15 @@ div#main-content-blog div#posts-container, div#main-content-single div#post
 	z-index: 1;
 }
 
-div#main-content-blog div#posts-container a {
+div#main-content-blog div#posts-container a, div#main-content-search div#results a {
 	display: block;
 }
 
-div#main-content-blog div#posts-container #posts {
+div#main-content-blog div#posts-container #posts, div#main-content-search div#results #posts {
 	display: inline-block;
 }
 
-div#main-content-blog div#posts-container #posts, div#main-content-single nav ul #posts
+div#main-content-blog div#posts-container #posts, div#main-content-single nav ul #posts, div#main-content-search div#results #posts
 	{
 	list-style: none;
 	height: 130px;
@@ -409,6 +409,13 @@ div#error p#message {
 	border: 5px solid #fff;
 	text-align: center;
 }
+/******************************
+********saerch page************
+*******************************/
+div#main-content-search #results{
+}
+
+
 /*****************Scroll*****************/
 a#scroll-up {
 	bottom: 70px;

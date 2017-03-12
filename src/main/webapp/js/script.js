@@ -18,7 +18,7 @@ $(function() {
 			}
 			loadFile(path, thisVar, indexOfItem);
 			miscTutFunctions();
-		} else if (file == "blog.html") {
+		} else if (file == "blog.html" || file == "search.html") {
 			$("html, body").attr('style', 'background: #fff !important')
 			$("#mule-menu-button").hide();
 			setColor(newColors);

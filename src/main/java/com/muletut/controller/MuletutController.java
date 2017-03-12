@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.lucene.search.TopDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -42,6 +43,7 @@ public class MuletutController {
 	}
 
 	private String getIndexMenu(ModelMap model, HttpServletRequest request) {
+
 		ArrayList<String> menuItems;
 		SearchForm searchForm = new SearchForm();
 		model.addAttribute("search", searchForm);
@@ -233,10 +235,20 @@ public class MuletutController {
 	 * @param searchForm
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/search")
-	public void search(@ModelAttribute("search") SearchForm searchForm) {
+	public String search(@ModelAttribute("search") SearchForm searchForm, ModelMap model) {
 		String searchString = searchForm.getSearchString();
-		muletutService.search(searchString);
-
+		try {
+			muletutService.createIndex();
+			ArrayList<String> matchedTitles = muletutService.search(searchString);
+			model.addAttribute("search", searchForm);
+			model.addAttribute("searchString", searchString);
+			model.addAttribute("titles", matchedTitles);
+			System.out.println(matchedTitles);
+			return "search";
+		} catch (MuletutException e) {
+			e.printStackTrace();
+			return "redirect: error.html";
+		}
 	}
 
 	/**

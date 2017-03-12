@@ -1,0 +1,21 @@
+<section>
+	<div>
+		Property transformer can be used to set, remove or copy outbound
+		properties.
+		<p class="alert alert-info">Inbound properties are immutable.</p>
+		<h3>Configuration</h3>
+		<ul class="post-list">
+			<li>To set a property, open the properties tab of property
+				transformer.</li>
+			<li>Select the Set property radio button. Give the name and
+				value for the property.<img src="images/property-1.JPG"
+				class="post-img img-responsive">
+			</li>
+			<li>Value can be a MEL expression also.</li>
+			<li>To acccess the property, use <code>#[message.outboundProperties['size']]</code></li>
+			<li>To remove a property, just select the remove property radio
+				button and specify the name of property to remove.<img src="images/property-2.JPG"
+				class="post-img img-responsive"></li>
+		</ul>
+	</div>
+</section>

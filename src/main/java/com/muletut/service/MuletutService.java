@@ -2,12 +2,15 @@ package com.muletut.service;
 
 import java.util.ArrayList;
 
+import org.apache.lucene.search.TopDocs;
+
 import com.muletut.exceptions.MuletutException;
 
 public interface MuletutService {
 
 	/**
 	 * Method to add index menu items
+	 * 
 	 * @return
 	 * @throws MuletutException
 	 */
@@ -15,6 +18,7 @@ public interface MuletutService {
 
 	/**
 	 * Method to add get index menu items
+	 * 
 	 * @return
 	 * @throws MuletutException
 	 */
@@ -22,16 +26,16 @@ public interface MuletutService {
 
 	/**
 	 * Method to read the tutorial file
+	 * 
 	 * @param title
 	 * @return
 	 * @throws MuletutException
 	 */
 	String readFile(String title) throws MuletutException;
 
-	void search(String searchString);
-
 	/**
 	 * Method to add reference menu items
+	 * 
 	 * @return
 	 * @throws MuletutException
 	 */
@@ -39,6 +43,7 @@ public interface MuletutService {
 
 	/**
 	 * Method to Get reference menu items
+	 * 
 	 * @return
 	 * @throws MuletutException
 	 */
@@ -46,6 +51,7 @@ public interface MuletutService {
 
 	/**
 	 * Method to add blog posts titles
+	 * 
 	 * @return
 	 * @throws MuletutException
 	 */
@@ -53,6 +59,7 @@ public interface MuletutService {
 
 	/**
 	 * Method to get Blog posts
+	 * 
 	 * @return
 	 * @throws MuletutException
 	 */
@@ -60,12 +67,29 @@ public interface MuletutService {
 
 	/**
 	 * Method to read blog post
+	 * 
 	 * @param title
 	 * @return
 	 * @throws MuletutException
 	 */
 	String readPost(String title) throws MuletutException;
 
+	/**
+	 * @param postName
+	 * @return
+	 * @throws MuletutException
+	 */
 	ArrayList<String> getBlogPostsForSingle(String postName) throws MuletutException;
 
+	/**
+	 * @throws MuletutException
+	 */
+	void createIndex() throws MuletutException;
+
+	/**
+	 * @param searchString
+	 * @return 
+	 * @throws MuletutException
+	 */
+	ArrayList<String> search(String searchString) throws MuletutException;
 }

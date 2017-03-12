@@ -1,0 +1,138 @@
+<section>
+	<div>The Salesforce connector enables you to connect directly
+		with Salesforce platform. The methods exposed allows to do almost all
+		the Salesforce operations which can be done via Salesforce API.</div>
+</section>
+<section>
+	<div>
+		<ul class="post-list">
+			<li>Include the Salesforce connector in source section of flow
+				and wrap in Poll.</li>
+			<li>Open the properties editor for Salesforce and add a
+				connector configuration.</li>
+			<li>Select <mark>Salesforce: Basic Authentication</mark></li>
+			<li>Fill in Salesforce username, password and security token.
+				Leave others as default and click OK.
+				<p class="alert alert-info">
+					For Salesforce developer account, go to <a
+						href="https://developer.salesforce.com/">Salesforce</a>. <br>Sign
+					into Salesforce account, click on your name and navigate to <strong>My
+						Settings > Personal > Reset My Security Token</strong>. Salesforce will
+					send the security token on your registered mail address.
+				</p>
+			</li>
+			<li>Select an operation from drop down.<img
+				src="images/sf-1.JPG" class="post-img img-responsive"></li>
+		</ul>
+		1
+		<h4>Query</h4>
+		<ul class="post-list">
+			<li>Leave the language as <mark>Datasense Query Language</mark></li>
+			<li>Go to query builder, on left all the objects will be listed,
+				select Account. Then select fields to fetch<img
+				src="images/sf-2.JPG" class="post-img img-responsive">
+			</li>
+			<li>Selecting <mark>AccountNumber, Description, Id, Name</mark>,
+				the query will be <code>SELECT AccountNumber, Description,
+					Id, Name FROM Account</code></li>
+			<li>Add a transformer and write the given script<pre>
+					<code class="language-javascript post-code">
+%dw 1.0
+%output application/java
+---
+payload map {
+	Id: $.Id,
+	Name: $.Name,
+	AccountNumber: $.AccountNumber,
+	Description: $.Description
+}</code>
+				</pre>
+			</li>
+			<li>Add a logger to print payload</li>
+			<li>To limit the data fetched to 10 records, click on <mark>Query
+					Builder</mark> and give 10 against Limit.
+				<p class="alert alert-info"></p>
+			</li>
+		</ul>
+		<h4>Create New Object</h4>
+		<ul class="post-list">
+			<li>Drop a HTTP connector in source section</li>
+			<li>In POST request, XML data will be sent to the app<pre>
+					<code class="language-markup post-code">
+&lt;Accounts>
+	&lt;Account>
+		&lt;Name>Coherence&lt;/Name>
+		&lt;Description>Movie&lt;/Description>
+	&lt;/Account>
+	&lt;Account>
+		&lt;Name>El Nino&lt;/Name>
+		&lt;Description>Spanish Movie&lt;/Description>
+	&lt;/Account>
+&lt;/Accounts>
+</code>
+				</pre></li>
+			<li>Add Transform Message component and write this script there
+				<pre>
+					<code class="language-javascript post-code">
+%dw 1.0
+%output application/java
+---
+payload.Accounts.*Account map ((account , indexOfAccount) -> {
+	Name: account.Name,
+	Description: account.Description
+})</code>
+				</pre> Output format is Java because Salesforce expects a List of Accounts
+				as input
+			</li>
+			<li>Add Salesforce Connector and change the operation to <mark>Create</mark><img
+				src="images/sf-3.JPG" class="post-img img-responsive"></li>
+		</ul>
+		<h4>Update Object</h4>
+		<ul class="post-list">
+			<li>Add HTTP connector to source section of flow</li>
+			<li>XML of the records to update is as<pre>
+					<code class="language-markup post-code">
+&lt;Accounts>
+	&lt;Account>
+		&lt;Id>0016F00001rFHCkQAO&lt;/Id>
+		&lt;Name>Resident Evil&lt;/Name>
+	&lt;/Account>
+	&lt;Account>
+		&lt;Id>0016F00001rFHDXQA4&lt;/Id>
+		&lt;Name>Underworld&lt;/Name>
+	&lt;/Account>
+&lt;/Accounts></code>
+				</pre></li>
+			<li>Add a Transform Message component, write the following
+				Dataweave script in it<pre>
+					<code class="language-javascript post-code">
+%dw 1.0
+%output application/java
+---
+payload.Accounts.*Account map ((account , indexOfAccount) -> {
+	Id: account.Id,
+	Name: account.Name
+})					</code>
+				</pre>
+			</li>
+			<li>Add Salesforce Connector and change the operation to <mark>Update</mark></li>
+		</ul>
+		<h4>Delete Object</h4>
+		<ul class="post-list">
+			<li>Id of the record to delete is given in XML as<pre>
+					<code class="language-markup post-code">
+&lt;Id>0016F00001bl5dfQAA&lt;/Id></code>
+				</pre></li>
+			<li>Dataweave script<pre>
+					<code class="language-javascript post-code">
+%dw 1.0
+%output application/java
+---
+Id: payload.Id
+</code>
+				</pre>
+			</li>
+			<li>Add Salesforce Connector and change the operation to <mark>Delete</mark></li>
+		</ul>
+	</div>
+</section>

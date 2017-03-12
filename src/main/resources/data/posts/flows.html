@@ -1,0 +1,43 @@
+	<section class="first">
+	<div>
+		A mule application can have one or more flow. The application accepts
+		a message through an inbound endpoint in a flow and processes the
+		message through a series of processors.<br> Typically, a flow has
+		<ul class="post-list">
+			<li>A message source for accepting a message.</li>
+			<li>Message Processor(s) to process the message.</li>
+			<li>Can have an exception strategy also for better error
+				handling.</li>
+		</ul>
+		A flow can either process the message by itself or route the message
+		to other flows or sub flows to perform specific tasks.
+		Simply, a flow is a chain of message processors.
+		<p class="alert alert-info">Flows without message source are
+			called private flows.</p>
+	</div>
+</section>
+<section class="sub-flow">
+	<h3>Sub Flow</h3>
+	<div>
+		<ul class="post-list">
+			<li>Promotes code reuse, avoid code redundancy</li>
+			<li>It processes messages synchronously, i.e; in the same
+				thread.</li>
+			<li>Inherits the exception strategy and processing strategy of
+				the calling flow.</li>
+		</ul>
+		<p class="alert alert-info">A single flow can reference to several sub
+			flows and a sub flow can be referenced by several flows.</p>
+	</div>
+</section>
+<section>
+	<div>
+		Larger flows should be broken into multiple flows and sub flows if possible, it makes for a cleaner view.
+		<ul class="post-list">
+			<li>Makes the graphical view easy to use and understand.</li>
+			<li>XML code is easier to read.</li>
+			<li>Easier to test.</li>
+			<li>Code reuse.</li>
+		</ul>
+	</div>
+</section>
