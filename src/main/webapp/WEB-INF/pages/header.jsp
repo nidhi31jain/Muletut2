@@ -18,7 +18,7 @@
 	rel="stylesheet">
 </head>
 <body>
-	<div id="main" class="container-fluid">
+	<div id="main" class="container-fluid col-xs-12">
 		<!-- 		HEADER -->
 		<header class="col-xs-12">
 			<nav id="navbar-header"

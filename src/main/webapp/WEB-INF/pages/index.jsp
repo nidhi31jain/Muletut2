@@ -1,14 +1,12 @@
 <%@ include file="header.jsp"%>
 <div id="main-content" class="container-fluid row">
 	<nav class="col-sm-3 container sidebar">
-		<div>
-			<ul id="mule-menu">
+			<ul id="mule-menu" class = "navbar-collapse collapse">
 				<c:forEach items="${menuItems}" var="item" varStatus="status">
 					<li ${status.first ? 'class="active first"' : '' }><a
 						href="#${item}">Mule - ${fn:replace(item,"-", " ")}</a></li>
 				</c:forEach>
 			</ul>
-		</div>
 	</nav>
 	<div class="col-sm-9" id="post-container">
 <!-- 		<div class="col-sm-9 loader"> -->

@@ -12,7 +12,7 @@ $(function() {
 			var thisVar = "";
 			var indexOfItem = "";
 			if (path != "") {
-				thisVar = $("div#main-content nav div ul li a[href='#" + path
+				thisVar = $("div#main-content nav ul li a[href='#" + path
 						+ "']");
 				indexOfItem = $(thisVar).parent().index();
 			}
@@ -78,7 +78,7 @@ $(function() {
 	/** ***********Load File************ */
 	function loadFile(titleOfItem, thisVar, indexOfItem) {
 		if (titleOfItem == "" || thisVar == "") {
-			thisVar = $("div#main-content nav div ul li").first().find('a');
+			thisVar = $("div#main-content nav ul li").first().find('a');
 			titleOfItem = $(thisVar).attr("href").substring(1);
 			indexOfItem = 0;
 		}
@@ -103,8 +103,8 @@ $(function() {
 			},
 			success : function(data) {
 				// $(".loader").hide();
-				$("div#main-content nav div ul li").removeClass("active");
-				$("div#main-content nav div ul li a").css({
+				$("div#main-content nav ul li").removeClass("active");
+				$("div#main-content nav ul li a").css({
 					"color" : "#000"
 				});
 				$(thisVar).css({
@@ -131,7 +131,7 @@ $(function() {
 
 	/** ***** Setting links to next and previous buttons in tut****** */
 	function setNextPreviousLinks(indexOfItem) {
-		var totalCount = $("div#main-content nav div ul li").length - 1;
+		var totalCount = $("div#main-content nav ul li").length - 1;
 		var indexOfNext = "";
 		var indexOfPrevious = "";
 		var previousLink = "";
@@ -143,11 +143,11 @@ $(function() {
 			indexOfNext = parseInt(indexOfItem) + 1;
 		}
 		if (indexOfPrevious != "" || indexOfItem > 0) {
-			previousLink = $("div#main-content nav div ul li").eq(
-					indexOfPrevious).find("a").attr("href").substring("1");
+			previousLink = $("div#main-content nav ul li").eq(indexOfPrevious)
+					.find("a").attr("href").substring("1");
 		}
 		if (indexOfNext != "") {
-			nextLink = $("div#main-content nav div ul li").eq(indexOfNext)
+			nextLink = $("div#main-content nav ul li").eq(indexOfNext)
 					.find("a").attr("href").substring("1");
 		}
 		$("div#post-container ul.pager li.next a").attr("href", "#" + nextLink)
@@ -158,7 +158,7 @@ $(function() {
 
 	function miscTutFunctions() {
 		/** ***********Clicking Sidebar Link**************** */
-		$("div#main-content nav div ul li a").click(function() {
+		$("div#main-content nav ul li a").click(function() {
 			var titleOfItem = $(this).attr("href").substring(1);
 			var indexOfItem = $(this).parent().index();
 			loadFile(titleOfItem, this, indexOfItem);
@@ -182,8 +182,8 @@ $(function() {
 			return;
 		}
 		var indexOfPreviousItem = idOfHeading - 1;
-		var thisVar = $("div#main-content nav div ul li").eq(
-				indexOfPreviousItem).find("a");
+		var thisVar = $("div#main-content nav ul li").eq(indexOfPreviousItem)
+				.find("a");
 		var titleOfItem = $(thisVar).attr("href").substring("1");
 		loadFile(titleOfItem, thisVar, indexOfPreviousItem);
 	}
@@ -192,13 +192,13 @@ $(function() {
 	function changeNextLink(thisVar) {
 		var idOfHeading = $(thisVar).parent().parent().find("h2.title").attr(
 				"id");
-		var totalCount = $("div#main-content nav div ul li").length - 1;
+		var totalCount = $("div#main-content nav ul li").length - 1;
 		if (idOfHeading == totalCount) {
 			alert("Sorry")
 		}
 		var indexOfNextItem = parseInt(idOfHeading) + 1;
-		var thisVar = $("div#main-content nav div ul li").eq(indexOfNextItem)
-				.find("a");
+		var thisVar = $("div#main-content nav ul li").eq(indexOfNextItem).find(
+				"a");
 		var titleOfItem = $(thisVar).attr("href").substring("1");
 		loadFile(titleOfItem, thisVar, indexOfNextItem);
 	}
@@ -250,4 +250,5 @@ $(function() {
 			return false;
 		});
 	}
+
 })

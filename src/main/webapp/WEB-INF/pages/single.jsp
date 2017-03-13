@@ -37,8 +37,6 @@
 				class="share-buttons share stumbleupon" href="#" target="_blank"><i
 				class="fa fa-stumbleupon"></i> Stumble</a>
 		</nav>
-		<div id="comments" class="col-xs-12"></div>
-	</div>
 </div>
 <%@ include file="footer.jsp"%>
 </div>

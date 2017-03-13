@@ -6,6 +6,7 @@
 			DOESN'T EXIST</p>
 	</div>
 </div>
+<div id="rectangle"></div>
 <%@ include file="footer.jsp"%>
 </div>
 
