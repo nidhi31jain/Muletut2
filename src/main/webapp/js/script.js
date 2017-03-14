@@ -7,6 +7,8 @@ $(function() {
 		if (file != "")
 			MenuSettings(url, file);
 		var newColors = [ "#7e3878", "#00aba9", "#b91d47", "#ff66c2" ];
+		$("div#main-content").css('padding-top', $("header nav").css('height'));
+		$("div#main-content").css('padding-bottom', $("footer").css('height'));
 		if (file == "index.html" || file == "" || file == "cloudhub.html") {
 			var path = url.includes("#") ? url.split("#")[1] : "";
 			var thisVar = "";

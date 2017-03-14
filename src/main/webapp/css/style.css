@@ -16,8 +16,8 @@ html, body {
 }
 
 div#main {
-	height: 100%;
-	min-width:424px;
+	min-height: 100%;
+	min-width: 424px;
 }
 /*************************************
 ************** Header ***************
@@ -103,6 +103,11 @@ ul#nav-menu li a {
 /*************************************
 ********** Main Content **************
 **************************************/
+div#main-content, div#main-content-blog, div#main-content-single, div#main-content-about,
+	div#main-content-error, div#main-content-search {
+	padding-top: 57px;
+}
+
 div#main-content {
 	background: #f4f5f6;
 	background: linear-gradient(to right, #f4f5f6, #fff 10%, #fff 100%, #fff 100%);
@@ -127,7 +132,6 @@ div#main-content nav ul {
 /* 	padding-left: 0px; */
 /* 	padding-right: 0px; */
 /* } */
-
 div#main-content nav ul li {
 	padding: 10px 0px 15px;
 }
@@ -142,12 +146,12 @@ div#main-content nav ul li a {
 div#main-content nav ul li.active {
 	background: #fff;
 	border: 1px solid #0077b5;
-/* 	border-right: 0px; */
+	/* 	border-right: 0px; */
 	border-top-left-radius: 3px;
 	border-bottom-left-radius: 3px;
-	border-radius:3px;
+	border-radius: 3px;
 	padding-left: 5px;
-/* 	font-size: 16px; */
+	/* 	font-size: 16px; */
 }
 
 div#main-content nav ul li a.active {
@@ -159,7 +163,6 @@ div#main-content nav ul li.active.first {
 	border-top: 0px;
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
-	
 }
 /*************************************
 ************** Content ***************
@@ -306,7 +309,7 @@ div#main-content-single div#post-container div#heading {
 	height: auto;
 	background: #f4f5f6;
 	color: #fff;
-	padding:5px;
+	padding: 5px;
 }
 
 div#main-content-single div#post-container #post-content {
@@ -318,7 +321,7 @@ div#main-content-single div#post-container #post-content {
 	word-break: break-all;
 }
 
-.share-buttons {
+.share-buttons, .follow-buttons {
 	display: block;
 	float: left;
 	padding: 10px 10px;
@@ -328,6 +331,7 @@ div#main-content-single div#post-container #post-content {
 	text-decoration: none;
 	font-size: 18px;
 	color: #FFF;
+	border: none;
 }
 
 .share-buttons:hover, .share-buttons:visited {
@@ -364,6 +368,7 @@ div#main-content-single div#post-container #post-content {
 *******************************/
 div#main-content-about {
 	background: #0077b5;
+	padding-bottom:700px;
 }
 
 div#rectangle {
@@ -416,12 +421,53 @@ div#error p#message {
 	text-align: center;
 }
 /******************************
-********saerch page************
+********search page************
 *******************************/
 div#main-content-search #results {
 	
 }
+/******************************
+********footer************
+*******************************/
+footer {
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: #333;
+	width: 100%;
+	height: auto;
+	padding-top: 5%;
+}
 
+footer div#footer-container {
+	height: 90%;
+}
+
+footer h2 {
+	text-align: center;
+	font-size: 30px;
+}
+
+footer nav#follow-box {
+	padding: 0px;
+}
+
+footer nav#follow-box .follow-buttons {
+	display: inline-block;
+	float: none;
+	margin: 10px 0px 10px 0px;
+	float: none;
+}
+
+footer div#contact-form {
+	height: 300px;
+}
+
+footer p {
+	text-align: center;
+	bottom: 0;
+}
 /*****************Scroll*****************/
 a#scroll-up {
 	bottom: 70px;

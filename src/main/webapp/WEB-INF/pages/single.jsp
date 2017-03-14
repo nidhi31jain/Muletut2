@@ -19,7 +19,7 @@
 			<li class="previous"><a href="#">Previous</a></li>
 			<li class="next"><a href="#">Next</a></li>
 		</ul>
-		<nav id="share-icons">
+		<nav id="share-box">
 			<a class="share-buttons share linkedin"
 				href="https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}&summary=&source="
 				target="_blank"><i class="fa fa-linkedin"></i> LinkedIn</a> <a
