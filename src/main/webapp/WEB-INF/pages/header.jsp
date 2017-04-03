@@ -43,7 +43,7 @@
 							<li><a href="cloudhub.html">Cloudhub</a></li>
 							<!-- 					<li><a href="references.html">References</a></li> -->
 							<li><a href="blog.html">Blog</a></li>
-							<li><a href="about.html">About me</a></li>
+<!-- 							<li><a href="about.html">About me</a></li> -->
 							<li class="form-item"><form:form commandName="search"
 									action="search.html" method="post" class="navbar-form"
 									role="search">

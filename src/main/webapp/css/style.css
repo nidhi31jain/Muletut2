@@ -103,11 +103,6 @@ ul#nav-menu li a {
 /*************************************
 ********** Main Content **************
 **************************************/
-div#main-content, div#main-content-blog, div#main-content-single, div#main-content-about,
-	div#main-content-error, div#main-content-search {
-	padding-top: 57px;
-}
-
 div#main-content {
 	background: #f4f5f6;
 	background: linear-gradient(to right, #f4f5f6, #fff 10%, #fff 100%, #fff 100%);
@@ -334,7 +329,7 @@ div#main-content-single div#post-container #post-content {
 	border: none;
 }
 
-.share-buttons:hover, .share-buttons:visited {
+.share-buttons:hover, .share-buttons:visited, .follow-buttons:hover, .follow-buttons:visited {
 	color: #efefef;
 	text-decoration: none;
 }
@@ -368,7 +363,6 @@ div#main-content-single div#post-container #post-content {
 *******************************/
 div#main-content-about {
 	background: #0077b5;
-	padding-bottom:700px;
 }
 
 div#rectangle {
@@ -408,6 +402,7 @@ div#main-content-error div#error {
 	z-index: 1;
 	color: #fff;
 	font-size: 32px;
+	margin-bottom:200px;
 }
 
 div#error p#error-code {
@@ -458,10 +453,35 @@ footer nav#follow-box .follow-buttons {
 	float: none;
 	margin: 10px 0px 10px 0px;
 	float: none;
+	text-decoration: none;
 }
 
 footer div#contact-form {
 	height: 300px;
+}
+
+footer div#contact-form form {
+	color:#000;
+}
+footer div#contact-form form div#contact-details #contact-name, footer div#contact-form form div#contact-details #contact-email {
+	height:35px;
+	padding:5px;
+	margin:10px 0px 5px 0px;
+	border:none;
+}
+
+footer div#contact-form form div#contact-details #contact-button {
+	background: #0077b5;
+	height:35px;
+	border:none;
+	margin-top: 10px;
+	font-size:18px;
+	color:#fff;
+}
+footer div#contact-form form div#contact-message textarea {
+	resize: none;
+	height:150px;
+	border:none;
 }
 
 footer p {

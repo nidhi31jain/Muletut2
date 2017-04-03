@@ -1,5 +1,17 @@
 $(function() {
 	mapURL();
+
+//	$("#fbShare").click(function() {
+//		alert("Hiasd")
+//		event.preventDefault();
+//		FB.ui({
+//			method : 'share',
+//			display : 'popup',
+//			href : 'http://localhost:8082/Muletut/flows.htm',
+//		}, function(response) {
+//		});
+//
+//	})
 	/** ************URL mapping************** */
 	function mapURL() {
 		var url = $(location).attr("href");
@@ -7,8 +19,12 @@ $(function() {
 		if (file != "")
 			MenuSettings(url, file);
 		var newColors = [ "#7e3878", "#00aba9", "#b91d47", "#ff66c2" ];
-		$("div#main-content").css('padding-top', $("header nav").css('height'));
-		$("div#main-content").css('padding-bottom', $("footer").css('height'));
+		$(
+				"div#main-content, div#main-content-blog, div#main-content-single, div#main-content-about, div#main-content-error, div#main-content-search")
+				.css('padding-top', $("header nav").css('height'));
+		$(
+				"div#main-content, div#main-content-blog, div#main-content-single, div#main-content-about, div#main-content-error, div#main-content-search")
+				.css('padding-bottom', $("footer").css('height'));
 		if (file == "index.html" || file == "" || file == "cloudhub.html") {
 			var path = url.includes("#") ? url.split("#")[1] : "";
 			var thisVar = "";
